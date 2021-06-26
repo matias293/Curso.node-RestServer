@@ -1,6 +1,7 @@
 const Role = require('../models/role')
 const Usuario = require('../models/usuario')
 
+//RUTA
 
 const esRoleValido = async(rol='') =>{
     const existeRol = await Role.findOne({rol})
