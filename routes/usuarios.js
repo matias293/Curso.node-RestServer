@@ -1,26 +1,33 @@
-const  {Router} = require('express')//funcion de express permite llaamr a mi funcion de mi router
-const { check } = require('express-validator')
+const  {Router} = require('express');//funcion de express permite llaamr a mi funcion de mi router
+const { check } = require('express-validator');
 
+ const validarCampos = require('../middlewares/validar-campos');
+ const {validarJWT}=require('../middlewares/validar-jwt')
+ const {esAdminRol, tieneRole}= require('../middlewares/validar-roles')
+// const {validarCampos,
+//        validarJWT,
+//        tieneRole,
+//        esAdminRol
+//       } = require('../middlewares')
+const {esRoleValido, emailExiste,existeUsuarioPorId} = require('../helpers/db-validators');
 
-const {esRoleValido, emailExiste,existeUsuarioPorId} = require('../helpers/db-validators')
-const validarCampos = require('../middlewares/validar-campos')
 const {usuariosGet,
        usuariosPut,
        usuariosPost,
        usuariosDelete,
        usuariosPatch
-                     } = require('../controllers/usuarios')
+                     } = require('../controllers/usuarios');
 
-const router = Router()
+const router = Router();
 
-router.get('/', usuariosGet )
+router.get('/', usuariosGet );
 
 router.put('/:id',[
   check('id','No es un ID valido').isMongoId(),
   check('id').custom(existeUsuarioPorId),
   check('rol').custom(esRoleValido),
   validarCampos
-] ,usuariosPut)
+] ,usuariosPut);
 
   router.post('/',[
     check('nombre', 'El nombre no es valido').not().isEmpty(),
@@ -30,16 +37,18 @@ router.put('/:id',[
     check('rol').custom(esRoleValido),
     //check('rol', 'El rol no es valido').isIn(['ADMIN_ROLE,USER_ROLE']),
     validarCampos
-  ],usuariosPost )
+  ],usuariosPost );
 
-  router.delete('/:id',
-  [
+  router.delete('/:id',[
+    validarJWT,
+    //esAdminRol,
+    tieneRole('ADMIN_ROLE','VENTAS_ROLE'),
     check('id','No es un ID valido').isMongoId(),
     check('id').custom(existeUsuarioPorId),
     validarCampos
-  ],usuariosDelete)
+  ],usuariosDelete);
  
-  router.patch('/',usuariosPatch)
+  router.patch('/',usuariosPatch);
 
 
 

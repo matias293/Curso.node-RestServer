@@ -5,6 +5,6 @@ const RoleSchema = Schema({
         type: String,
         required: [true,'El rol es obligatorio']
     }
-})
+});
 
-module.exports= model('Role',RoleSchema)
+module.exports= model('Role',RoleSchema);

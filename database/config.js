@@ -16,10 +16,10 @@ const dbConnection = async() => {
     } catch (error) {
         throw new Error('Errror en la base de datos')
         
-    }
+    };
 
 }
 
 module.exports ={
     dbConnection
-}
+};
