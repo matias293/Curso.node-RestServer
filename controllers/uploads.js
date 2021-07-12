@@ -10,7 +10,7 @@ const { response } = require("express");
 const { subirArchivo } = require("../helpers");
 
 const {Usuario,Producto} = require('../models');
-const { fstat } = require('fs');
+const { fs } = require('fs');
 
 
 const cargarArchivo = async(req,res = response) =>{
